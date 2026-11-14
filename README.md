@@ -16,7 +16,7 @@ I applied it to Google's **Gemma 4 E2B** (4-bit, llama.cpp) for an on-device ass
 
 CPU only: Intel i5-11300H, 4 threads, llama.cpp b12360, temperature 0.
 
-**Trimmed model:** on Hugging Face at `{{HF_REPO}}`.
+**Trimmed model:** [Nilmon/gemma-4-E2B-en50v-GGUF](https://huggingface.co/Nilmon/gemma-4-E2B-en50v-GGUF) on Hugging Face.
 
 ---
 
