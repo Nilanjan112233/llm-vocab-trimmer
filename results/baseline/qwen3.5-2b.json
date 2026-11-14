@@ -1,0 +1,480 @@
+{
+  "summary": {
+    "model": "qwen3.5-2b",
+    "file": "Qwen3.5-2B-Q4_K_M.gguf",
+    "file_gb": 1.28,
+    "load_seconds": 3.1,
+    "peak_ram_gb": 2.09,
+    "tool_accuracy": 0.933,
+    "full_accuracy": 0.933,
+    "avg_task_seconds": 2.07,
+    "gen_tokens_per_s": 19.0,
+    "prompt_tokens_per_s": 75.0,
+    "speed_sample": "The sky appears blue because of a phenomenon called Rayleigh scattering. Sunlight, which is white and composed of all visible colors, travels through the atmosphere. As it passes through the air, shorter wavelengths like blue and violet are scattered much more strongly than longer wavelengths like r"
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "input": "open whatsapp",
+      "expected": "open_app",
+      "got": {
+        "tool": "open_app",
+        "args": {
+          "name": "whatsapp"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 3.57
+    },
+    {
+      "id": 2,
+      "input": "Can you launch the camera for me",
+      "expected": "open_app",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "camera",
+          "value": "on"
+        }
+      },
+      "raw": null,
+      "tool_ok": false,
+      "args_ok": false,
+      "seconds": 1.44
+    },
+    {
+      "id": 3,
+      "input": "start spotify",
+      "expected": "open_app",
+      "got": {
+        "tool": "open_app",
+        "args": {
+          "name": "spotify"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.16
+    },
+    {
+      "id": 4,
+      "input": "what's the weather in Kolkata today",
+      "expected": "web_search",
+      "got": {
+        "tool": "web_search",
+        "args": {
+          "query": "weather in Kolkata today"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.37
+    },
+    {
+      "id": 5,
+      "input": "search for the latest iPhone price in India",
+      "expected": "web_search",
+      "got": {
+        "tool": "web_search",
+        "args": {
+          "query": "latest iPhone price in India 2024"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.63
+    },
+    {
+      "id": 6,
+      "input": "who won yesterday's cricket match",
+      "expected": "web_search",
+      "got": {
+        "tool": "web_search",
+        "args": {
+          "query": "who won yesterday's cricket match"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.42
+    },
+    {
+      "id": 7,
+      "input": "remind me to call mom at 7 pm",
+      "expected": "set_reminder",
+      "got": {
+        "tool": "set_reminder",
+        "args": {
+          "text": "Call mom",
+          "time": "7 pm"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.65
+    },
+    {
+      "id": 8,
+      "input": "wake me up at 6:30 tomorrow",
+      "expected": "set_reminder",
+      "got": {
+        "tool": "set_reminder",
+        "args": {
+          "text": "Wake me up at 6:30 tomorrow",
+          "time": "tomorrow 6:30"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 2.43
+    },
+    {
+      "id": 9,
+      "input": "set a reminder for my dentist appointment on Friday at 10am",
+      "expected": "set_reminder",
+      "got": {
+        "tool": "set_reminder",
+        "args": {
+          "text": "Dentist appointment",
+          "time": "Friday at 10am"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 2.03
+    },
+    {
+      "id": 10,
+      "input": "text Rahul that I'll be late by 10 minutes",
+      "expected": "send_message",
+      "got": {
+        "tool": "send_message",
+        "args": {
+          "to": "Rahul",
+          "text": "I'll be late by 10 minutes."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 2.03
+    },
+    {
+      "id": 11,
+      "input": "send a message to Priya saying happy birthday",
+      "expected": "send_message",
+      "got": {
+        "tool": "send_message",
+        "args": {
+          "to": "Priya",
+          "text": "Happy Birthday! Wishing you all the best today and in the coming year."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 2.34
+    },
+    {
+      "id": 12,
+      "input": "tell dad I reached home",
+      "expected": "send_message",
+      "got": {
+        "tool": "send_message",
+        "args": {
+          "to": "dad",
+          "text": "I reached home!"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.59
+    },
+    {
+      "id": 13,
+      "input": "play some lofi music",
+      "expected": "play_music",
+      "got": {
+        "tool": "play_music",
+        "args": {
+          "query": "lofi music"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.26
+    },
+    {
+      "id": 14,
+      "input": "play Arijit Singh songs",
+      "expected": "play_music",
+      "got": {
+        "tool": "play_music",
+        "args": {
+          "query": "Arijit Singh songs"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.41
+    },
+    {
+      "id": 15,
+      "input": "turn on wifi",
+      "expected": "device_setting",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "wifi",
+          "value": "on"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.44
+    },
+    {
+      "id": 16,
+      "input": "switch off bluetooth",
+      "expected": "device_setting",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "bluetooth",
+          "value": "off"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.55
+    },
+    {
+      "id": 17,
+      "input": "it's too dark, turn on the flashlight",
+      "expected": "device_setting",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "flashlight",
+          "value": "on"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.58
+    },
+    {
+      "id": 18,
+      "input": "make it louder",
+      "expected": "device_setting",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "volume",
+          "value": "up"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.43
+    },
+    {
+      "id": 19,
+      "input": "don't disturb me for the next hour",
+      "expected": "device_setting",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "do_not_disturb",
+          "value": "on"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.62
+    },
+    {
+      "id": 20,
+      "input": "note down that the wifi password is sunshine42",
+      "expected": "take_note",
+      "got": {
+        "tool": "device_setting",
+        "args": {
+          "setting": "wifi",
+          "value": "password"
+        }
+      },
+      "raw": null,
+      "tool_ok": false,
+      "args_ok": false,
+      "seconds": 1.54
+    },
+    {
+      "id": 21,
+      "input": "save a note: buy milk, eggs and bread",
+      "expected": "take_note",
+      "got": {
+        "tool": "take_note",
+        "args": {
+          "text": "buy milk, eggs and bread"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.48
+    },
+    {
+      "id": 22,
+      "input": "hi",
+      "expected": "reply",
+      "got": {
+        "tool": "reply",
+        "args": {
+          "text": "Hello! How can I help you today?"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.73
+    },
+    {
+      "id": 23,
+      "input": "thanks, that's all",
+      "expected": "reply",
+      "got": {
+        "tool": "reply",
+        "args": {
+          "text": "You're welcome! Let me know if you need anything else."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.71
+    },
+    {
+      "id": 24,
+      "input": "what is 15 times 4",
+      "expected": "reply",
+      "got": {
+        "tool": "reply",
+        "args": {
+          "text": "15 times 4 is 60."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.53
+    },
+    {
+      "id": 25,
+      "input": "what's the capital of Japan",
+      "expected": "reply",
+      "got": {
+        "tool": "reply",
+        "args": {
+          "text": "The capital of Japan is Tokyo."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.4
+    },
+    {
+      "id": 26,
+      "input": "write a detailed 1000-word essay on the history of the Roman Empire",
+      "expected": "ask_big_ai",
+      "got": {
+        "tool": "ask_big_ai",
+        "args": {
+          "question": "Write a detailed 1000-word essay on the history of the Roman Empire, covering its origins, expansion, peak, decline, and legacy."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 2.95
+    },
+    {
+      "id": 27,
+      "input": "debug this complex multithreaded Rust program that deadlocks under load and explain the fix",
+      "expected": "ask_big_ai",
+      "got": {
+        "tool": "ask_big_ai",
+        "args": {
+          "question": "I have a complex multithreaded Rust program that is deadlocking under load. Please analyze the code, identify the root cause of the deadlock, and provide a comprehensive fix including thread-safe data structures, proper synchronization, and potential performance optimizations."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 5.34
+    },
+    {
+      "id": 28,
+      "input": "analyse the pros and cons of moving my startup's backend from monolith to microservices, with a migration plan",
+      "expected": "ask_big_ai",
+      "got": {
+        "tool": "ask_big_ai",
+        "args": {
+          "question": "I need a comprehensive analysis of the pros and cons of migrating a startup's backend from a monolithic architecture to microservices, including a detailed migration plan. Please cover technical challenges, team structure, security, scalability, and a step-by-step roadmap for a small-to-medium startup."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 5.79
+    },
+    {
+      "id": 29,
+      "input": "explain in depth how TLS 1.3 handshake works step by step with all the cryptography",
+      "expected": "ask_big_ai",
+      "got": {
+        "tool": "ask_big_ai",
+        "args": {
+          "question": "Explain in depth how the TLS 1.3 handshake works step by step, including all cryptographic primitives used (handshake, key exchange, encryption, authentication), the role of each message, and the mathematical foundations (ECDH, AEAD, MAC)."
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 4.52
+    },
+    {
+      "id": 30,
+      "input": "yo can u open youtube real quick",
+      "expected": "open_app",
+      "got": {
+        "tool": "open_app",
+        "args": {
+          "name": "youtube"
+        }
+      },
+      "raw": null,
+      "tool_ok": true,
+      "args_ok": true,
+      "seconds": 1.18
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+data/
+out/
+results/local/
+*.gguf
+*.parquet
+*.log
+__pycache__/
+.venv*/

@@ -1,0 +1,281 @@
+{
+  "summary": {
+    "model": "laya-english-421m",
+    "load_seconds": 823.1,
+    "peak_ram_gb": 2.08,
+    "tool_accuracy": 0.367,
+    "avg_ms": 921.6
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "input": "open whatsapp",
+      "expected": "open_app",
+      "got": "open_app",
+      "confidence": 0.6415,
+      "ok": true,
+      "seconds": 0.897
+    },
+    {
+      "id": 2,
+      "input": "Can you launch the camera for me",
+      "expected": "open_app",
+      "got": "reply",
+      "confidence": 0.611,
+      "ok": false,
+      "seconds": 0.852
+    },
+    {
+      "id": 3,
+      "input": "start spotify",
+      "expected": "open_app",
+      "got": "ask_big_ai",
+      "confidence": 0.5791,
+      "ok": false,
+      "seconds": 0.843
+    },
+    {
+      "id": 4,
+      "input": "what's the weather in Kolkata today",
+      "expected": "web_search",
+      "got": "reply",
+      "confidence": 0.5404,
+      "ok": false,
+      "seconds": 1.029
+    },
+    {
+      "id": 5,
+      "input": "search for the latest iPhone price in India",
+      "expected": "web_search",
+      "got": "reply",
+      "confidence": 0.5882,
+      "ok": false,
+      "seconds": 0.891
+    },
+    {
+      "id": 6,
+      "input": "who won yesterday's cricket match",
+      "expected": "web_search",
+      "got": "reply",
+      "confidence": 0.5548,
+      "ok": false,
+      "seconds": 0.915
+    },
+    {
+      "id": 7,
+      "input": "remind me to call mom at 7 pm",
+      "expected": "set_reminder",
+      "got": "set_reminder",
+      "confidence": 0.6805,
+      "ok": true,
+      "seconds": 0.924
+    },
+    {
+      "id": 8,
+      "input": "wake me up at 6:30 tomorrow",
+      "expected": "set_reminder",
+      "got": "reply",
+      "confidence": 0.6109,
+      "ok": false,
+      "seconds": 0.924
+    },
+    {
+      "id": 9,
+      "input": "set a reminder for my dentist appointment on Friday at 10am",
+      "expected": "set_reminder",
+      "got": "set_reminder",
+      "confidence": 0.9351,
+      "ok": true,
+      "seconds": 0.969
+    },
+    {
+      "id": 10,
+      "input": "text Rahul that I'll be late by 10 minutes",
+      "expected": "send_message",
+      "got": "reply",
+      "confidence": 0.73,
+      "ok": false,
+      "seconds": 0.896
+    },
+    {
+      "id": 11,
+      "input": "send a message to Priya saying happy birthday",
+      "expected": "send_message",
+      "got": "reply",
+      "confidence": 0.527,
+      "ok": false,
+      "seconds": 0.993
+    },
+    {
+      "id": 12,
+      "input": "tell dad I reached home",
+      "expected": "send_message",
+      "got": "reply",
+      "confidence": 0.6488,
+      "ok": false,
+      "seconds": 0.848
+    },
+    {
+      "id": 13,
+      "input": "play some lofi music",
+      "expected": "play_music",
+      "got": "ask_big_ai",
+      "confidence": 0.4552,
+      "ok": false,
+      "seconds": 0.866
+    },
+    {
+      "id": 14,
+      "input": "play Arijit Singh songs",
+      "expected": "play_music",
+      "got": "ask_big_ai",
+      "confidence": 0.4299,
+      "ok": false,
+      "seconds": 0.878
+    },
+    {
+      "id": 15,
+      "input": "turn on wifi",
+      "expected": "device_setting",
+      "got": "reply",
+      "confidence": 0.3935,
+      "ok": false,
+      "seconds": 0.858
+    },
+    {
+      "id": 16,
+      "input": "switch off bluetooth",
+      "expected": "device_setting",
+      "got": "ask_big_ai",
+      "confidence": 0.4664,
+      "ok": false,
+      "seconds": 0.974
+    },
+    {
+      "id": 17,
+      "input": "it's too dark, turn on the flashlight",
+      "expected": "device_setting",
+      "got": "reply",
+      "confidence": 0.5888,
+      "ok": false,
+      "seconds": 0.989
+    },
+    {
+      "id": 18,
+      "input": "make it louder",
+      "expected": "device_setting",
+      "got": "reply",
+      "confidence": 0.5931,
+      "ok": false,
+      "seconds": 0.879
+    },
+    {
+      "id": 19,
+      "input": "don't disturb me for the next hour",
+      "expected": "device_setting",
+      "got": "reply",
+      "confidence": 0.7845,
+      "ok": false,
+      "seconds": 0.962
+    },
+    {
+      "id": 20,
+      "input": "note down that the wifi password is sunshine42",
+      "expected": "take_note",
+      "got": "take_note",
+      "confidence": 0.5939,
+      "ok": true,
+      "seconds": 0.866
+    },
+    {
+      "id": 21,
+      "input": "save a note: buy milk, eggs and bread",
+      "expected": "take_note",
+      "got": "take_note",
+      "confidence": 0.9855,
+      "ok": true,
+      "seconds": 0.993
+    },
+    {
+      "id": 22,
+      "input": "hi",
+      "expected": "reply",
+      "got": "reply",
+      "confidence": 0.8802,
+      "ok": true,
+      "seconds": 0.901
+    },
+    {
+      "id": 23,
+      "input": "thanks, that's all",
+      "expected": "reply",
+      "got": "reply",
+      "confidence": 0.7636,
+      "ok": true,
+      "seconds": 0.856
+    },
+    {
+      "id": 24,
+      "input": "what is 15 times 4",
+      "expected": "reply",
+      "got": "ask_big_ai",
+      "confidence": 0.5724,
+      "ok": false,
+      "seconds": 0.944
+    },
+    {
+      "id": 25,
+      "input": "what's the capital of Japan",
+      "expected": "reply",
+      "got": "ask_big_ai",
+      "confidence": 0.5685,
+      "ok": false,
+      "seconds": 0.945
+    },
+    {
+      "id": 26,
+      "input": "write a detailed 1000-word essay on the history of the Roman Empire",
+      "expected": "ask_big_ai",
+      "got": "ask_big_ai",
+      "confidence": 0.6003,
+      "ok": true,
+      "seconds": 0.937
+    },
+    {
+      "id": 27,
+      "input": "debug this complex multithreaded Rust program that deadlocks under load and explain the fix",
+      "expected": "ask_big_ai",
+      "got": "ask_big_ai",
+      "confidence": 0.5646,
+      "ok": true,
+      "seconds": 0.926
+    },
+    {
+      "id": 28,
+      "input": "analyse the pros and cons of moving my startup's backend from monolith to microservices, with a migration plan",
+      "expected": "ask_big_ai",
+      "got": "ask_big_ai",
+      "confidence": 0.7242,
+      "ok": true,
+      "seconds": 0.974
+    },
+    {
+      "id": 29,
+      "input": "explain in depth how TLS 1.3 handshake works step by step with all the cryptography",
+      "expected": "ask_big_ai",
+      "got": "ask_big_ai",
+      "confidence": 0.5857,
+      "ok": true,
+      "seconds": 0.966
+    },
+    {
+      "id": 30,
+      "input": "yo can u open youtube real quick",
+      "expected": "open_app",
+      "got": "reply",
+      "confidence": 0.4854,
+      "ok": false,
+      "seconds": 0.954
+    }
+  ]
+}

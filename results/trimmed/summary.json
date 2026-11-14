@@ -1,0 +1,80 @@
+[
+  {
+    "model": "gemma-4-e2b-en20",
+    "file": "gemma-4-E2B-en20-Q4_0.gguf",
+    "file_gb": 1.61,
+    "load_seconds": 2.6,
+    "peak_ram_gb": 2.44,
+    "tool_accuracy": 0.967,
+    "full_accuracy": 0.9,
+    "avg_task_seconds": 2.3,
+    "gen_tokens_per_s": 17.5,
+    "prompt_tokens_per_s": 141.8,
+    "speed_sample": "The sky appears blue due to a phenomenon called **Rayleigh scattering** involving sunlight and the Earth's atmosphere. Sunlight is composed of various colors, including blue and violet. When sunlight enters the atmosphere, it collides with the tiny gas molecules (like nitrogen and oxygen).\n\nThese mo"
+  },
+  {
+    "model": "gemma-4-e2b-en20+mtp",
+    "file": "gemma-4-E2B-en20-Q4_0.gguf",
+    "file_gb": 1.61,
+    "load_seconds": 2.0,
+    "peak_ram_gb": 2.51,
+    "tool_accuracy": 0.967,
+    "full_accuracy": 0.933,
+    "avg_task_seconds": 1.45,
+    "gen_tokens_per_s": 20.4,
+    "prompt_tokens_per_s": 134.3,
+    "speed_sample": "The sky appears blue due to a phenomenon called **Rayleigh scattering** involving sunlight and the Earth's atmosphere. Sunlight is composed of various colors, including blue and violet. When sunlight enters the atmosphere, it collides with the tiny gas molecules (like nitrogen and oxygen).\n\nThese mo"
+  },
+  {
+    "model": "gemma-4-e2b-en50",
+    "file": "gemma-4-E2B-en50-Q4_0.gguf",
+    "file_gb": 1.49,
+    "load_seconds": 2.0,
+    "peak_ram_gb": 2.4,
+    "tool_accuracy": 0.967,
+    "full_accuracy": 0.833,
+    "avg_task_seconds": 2.25,
+    "gen_tokens_per_s": 19.9,
+    "prompt_tokens_per_s": 141.8,
+    "speed_sample": "The sky appears blue due to a phenomenon called **rayleigh scattering** involving sunlight and the Earth's atmosphere.\n\nSunlight, which appears white to us, is actually composed of all the colors of the rainbow. When this light enters the atmosphere, it collides with the tiny gas molecules (like nit"
+  },
+  {
+    "model": "gemma-4-e2b-en50+mtp",
+    "file": "gemma-4-E2B-en50-Q4_0.gguf",
+    "file_gb": 1.49,
+    "load_seconds": 2.1,
+    "peak_ram_gb": 2.46,
+    "tool_accuracy": 0.967,
+    "full_accuracy": 0.833,
+    "avg_task_seconds": 1.38,
+    "gen_tokens_per_s": 23.6,
+    "prompt_tokens_per_s": 130.8,
+    "speed_sample": "The sky appears blue due to a phenomenon called **rayleigh scattering** involving sunlight and the Earth's atmosphere.\n\nSunlight, which appears white to us, is actually composed of all the colors of the rainbow. When this light enters the atmosphere, it collides with the tiny gas molecules (like nit"
+  },
+  {
+    "model": "gemma-4-e2b-en20v+mtp",
+    "file": "gemma-4-E2B-en20v-Q4_0.gguf",
+    "file_gb": 1.76,
+    "load_seconds": 2.6,
+    "peak_ram_gb": 2.57,
+    "tool_accuracy": 1.0,
+    "full_accuracy": 1.0,
+    "avg_task_seconds": 1.43,
+    "gen_tokens_per_s": 17.4,
+    "prompt_tokens_per_s": 134.0,
+    "speed_sample": "The sky appears blue due to a phenomenon called **Rayleigh scattering** involving sunlight and the Earth's atmosphere. Sunlight is composed of various colors, including blue and violet. When sunlight enters the atmosphere, it collides with the tiny gas molecules (primarily nitrogen and oxygen).\n\nThe"
+  },
+  {
+    "model": "gemma-4-e2b-en50v+mtp",
+    "file": "gemma-4-E2B-en50v-Q4_0.gguf",
+    "file_gb": 1.67,
+    "load_seconds": 2.5,
+    "peak_ram_gb": 2.53,
+    "tool_accuracy": 1.0,
+    "full_accuracy": 1.0,
+    "avg_task_seconds": 1.34,
+    "gen_tokens_per_s": 21.5,
+    "prompt_tokens_per_s": 132.0,
+    "speed_sample": "The sky appears blue due to a phenomenon called **Rayleigh scattering** involving sunlight and the Earth's atmosphere. Sunlight is composed of various colors, including blue and violet. When sunlight enters the atmosphere, it collides with the tiny gas molecules (primarily nitrogen and oxygen).\n\nThe"
+  }
+]
