@@ -1,4 +1,4 @@
-# gguf-vocab-trim
+# llm-vocab-trimmer
 
 **Make a multilingual small LLM English-only, without any training, by cutting its vocabulary directly inside the quantized GGUF file.**
 
