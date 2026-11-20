@@ -8,10 +8,13 @@ Usage:
   python scripts/bench.py --server path/to/llama-server --model model.gguf [--draft mtp.gguf] [--name NAME]
 
 Settings used for the published results: 4 threads, context 4096, temperature 0, reasoning off,
-llama.cpp build b12360, Intel i5-11300H CPU.
+llama.cpp build b12360, Intel i5-11300H CPU. The --spec-type draft-mtp and --reasoning flags need a
+recent llama.cpp build (b12360 works). Peak RAM is the server's resident memory, sampled after each
+request. Timings are from a single pass, so expect a few percent of noise between runs.
 """
 import argparse
 import json
+import socket
 import subprocess
 import time
 import urllib.request
@@ -54,10 +57,29 @@ def score(task, out):
     return True, True
 
 
+def port_in_use(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
+def summarize(name, model_path, load_s, peak_bytes, rows, timings, sample):
+    n = len(rows)
+    return {
+        "model": name, "file": Path(model_path).name, "file_gb": round(Path(model_path).stat().st_size / 1e9, 2),
+        "load_seconds": round(load_s, 1), "peak_ram_gb": round(peak_bytes / 1e9, 2),
+        "tool_accuracy": round(sum(r["tool_ok"] for r in rows) / n, 3),
+        "full_accuracy": round(sum(r["args_ok"] for r in rows) / n, 3),
+        "avg_task_seconds": round(sum(r["seconds"] for r in rows) / n, 2),
+        "gen_tokens_per_s": round(timings.get("predicted_per_second", 0), 1),
+        "prompt_tokens_per_s": round(timings.get("prompt_per_second", 0), 1),
+        "speed_sample": sample[:300],
+    }
+
+
 class Server:
-    def __init__(self, server, model, draft, port, threads, log_path):
-        cmd = [server, "-m", model, "--port", str(port), "-t", str(threads),
-               "-c", "4096", "--reasoning", "off", "-np", "1"]
+    def __init__(self, server, model, draft, port, threads, log_path, ctx=4096):
+        cmd = [server, "-m", model, "--host", "127.0.0.1", "--port", str(port), "-t", str(threads),
+               "-c", str(ctx), "--reasoning", "off", "-np", "1"]
         if draft:
             cmd += ["--spec-type", "draft-mtp", "-md", draft]
         self.port = port
@@ -70,7 +92,7 @@ class Server:
         t0 = time.time()
         while time.time() - t0 < timeout:
             if self.proc.poll() is not None:
-                raise RuntimeError("server exited early - see the server log")
+                raise RuntimeError(f"llama-server exited early - see {self.log.name}")
             try:
                 with urllib.request.urlopen(f"http://127.0.0.1:{self.port}/health", timeout=2) as r:
                     if r.status == 200:
@@ -78,7 +100,7 @@ class Server:
             except Exception:
                 pass
             time.sleep(0.5)
-        raise TimeoutError("server not ready")
+        raise TimeoutError(f"llama-server not ready after {timeout}s - see {self.log.name}")
 
     def chat(self, body, timeout=300):
         req = urllib.request.Request(f"http://127.0.0.1:{self.port}/v1/chat/completions",
@@ -107,16 +129,24 @@ def main():
     ap.add_argument("--out", default="results/local")
     ap.add_argument("--port", type=int, default=8090)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--ctx", type=int, default=4096, help="context size passed to llama-server")
     a = ap.parse_args()
+
+    for label, p in (("--server", a.server), ("--model", a.model), ("--draft", a.draft), ("--tasks", a.tasks)):
+        if p and not Path(p).is_file():
+            ap.error(f"{label}: file not found: {p}")
+    if port_in_use(a.port):
+        ap.error(f"port {a.port} is already in use (another llama-server?) - pick one with --port")
 
     model = Path(a.model)
     name = a.name or model.stem + ("+mtp" if a.draft else "")
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    data = json.load(open(a.tasks, encoding="utf-8"))
+    with open(a.tasks, encoding="utf-8") as fh:
+        data = json.load(fh)
     tasks, tools = data["tasks"], data["tools"]
 
-    srv = Server(a.server, str(model), a.draft, a.port, a.threads, out / f"{name}.server.log")
+    srv = Server(a.server, str(model), a.draft, a.port, a.threads, out / f"{name}.server.log", a.ctx)
     try:
         load_s = srv.wait_ready()
         sysmsg, schema = build_system_prompt(tools), schema_for(tools)
@@ -141,18 +171,10 @@ def main():
             print(f"[{name}] {mark}{t['id']:>2} {dt:5.2f}s  {text[:90]}")
 
         sp = srv.chat({"messages": [{"role": "user", "content": SPEED_PROMPT}], "temperature": 0, "max_tokens": 200})
-        tm = sp.get("timings", {})
-        n = len(rows)
-        summary = {
-            "model": name, "file": model.name, "file_gb": round(model.stat().st_size / 1e9, 2),
-            "load_seconds": round(load_s, 1), "peak_ram_gb": round(srv.peak / 1e9, 2),
-            "tool_accuracy": round(sum(r["tool_ok"] for r in rows) / n, 3),
-            "full_accuracy": round(sum(r["args_ok"] for r in rows) / n, 3),
-            "avg_task_seconds": round(sum(r["seconds"] for r in rows) / n, 2),
-            "gen_tokens_per_s": round(tm.get("predicted_per_second", 0), 1),
-            "prompt_tokens_per_s": round(tm.get("prompt_per_second", 0), 1),
-        }
-        json.dump({"summary": summary, "tasks": rows}, open(out / f"{name}.json", "w", encoding="utf-8"), indent=2)
+        sample = sp["choices"][0]["message"].get("content") or ""
+        summary = summarize(name, model, load_s, srv.peak, rows, sp.get("timings", {}), sample)
+        with open(out / f"{name}.json", "w", encoding="utf-8") as fh:
+            json.dump({"summary": summary, "tasks": rows}, fh, indent=2)
         print(json.dumps(summary, indent=2))
     finally:
         srv.stop()
