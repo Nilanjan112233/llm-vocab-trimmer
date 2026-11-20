@@ -16,6 +16,8 @@ I applied it to Google's **Gemma 4 E2B** (4-bit, llama.cpp) for an on-device ass
 
 CPU only: Intel i5-11300H, 4 threads, llama.cpp b12360, temperature 0.
 
+![Original vs trimmed Gemma 4 E2B: file size 2.84 to 1.67 GB, time per task 2.00 to 1.34 s, tool-calling score 100% for both](docs/media/before_after.png)
+
 **Trimmed model:** [Nilmon/gemma-4-E2B-en50v-GGUF](https://huggingface.co/Nilmon/gemma-4-E2B-en50v-GGUF) on Hugging Face.
 
 ---
@@ -33,6 +35,18 @@ In small multilingual models, a large share of the weights is per-token tables: 
 About 59% of the file is rows for tokens, and most of those tokens are other languages. An English-only assistant never uses those rows, so removing them costs nothing, and the output layer gets about 3× smaller, which speeds up every generated token.
 
 ## How it works
+
+```mermaid
+flowchart LR
+    A["Original GGUF<br/>262,144 tokens<br/>2.84 GB"] --> B["build_keep_list.py<br/>count tokens in ~97M tokens<br/>of English text and code"]
+    B --> C["Keep list<br/>special + frequent tokens<br/>+ spelling variants<br/>+ BPE pieces<br/>= 87,830 ids"]
+    A --> D["trim_gguf.py<br/>filter vocab and merges,<br/>renumber ids, copy only<br/>the kept rows (raw bytes)"]
+    C --> D
+    D --> E["Trimmed GGUF<br/>87,830 tokens<br/>1.67 GB"]
+    E --> F["bench.py + llama-perplexity<br/>tool-calling accuracy,<br/>speed, English quality"]
+```
+
+A GGUF model stores one row of numbers per token in its token tables. Keeping a token means keeping its row; dropping a token deletes its row. Nothing is retrained and nothing inside the transformer blocks changes.
 
 1. **Pick the tokens to keep** (`scripts/build_keep_list.py`)
    - Tokenize about 97M tokens of English with the real tokenizer: WikiText-103 (61M), UltraChat English conversations (27M), Python standard-library source (10M), plus the benchmark prompts.
@@ -94,9 +108,10 @@ python scripts/download_data.py                       # ~3.1 GB into ./data
 # 1. keep list (writes keep_lists/keep_ids_50v.json)
 python scripts/build_keep_list.py --gguf data/mtp-gemma-4-E2B-it-Q4_0.gguf --data data 50
 
-# 2. trim the model and its MTP draft with the same list
-python scripts/trim_gguf.py data/gemma-4-E2B-it-Q4_0.gguf     out/gemma-4-E2B-en50v-Q4_0.gguf     keep_lists/keep_ids_50v.json
-python scripts/trim_gguf.py data/mtp-gemma-4-E2B-it-Q4_0.gguf out/mtp-gemma-4-E2B-en50v-Q4_0.gguf keep_lists/keep_ids_50v.json
+# 2. trim the model and its MTP draft with the same list (--verify re-reads the output and
+#    checks every kept row is bit-identical to the original)
+python scripts/trim_gguf.py data/gemma-4-E2B-it-Q4_0.gguf     out/gemma-4-E2B-en50v-Q4_0.gguf     keep_lists/keep_ids_50v.json --verify
+python scripts/trim_gguf.py data/mtp-gemma-4-E2B-it-Q4_0.gguf out/mtp-gemma-4-E2B-en50v-Q4_0.gguf keep_lists/keep_ids_50v.json --verify
 
 # 3. benchmark (needs a llama.cpp build with llama-server)
 python scripts/bench.py --server path/to/llama-server --model out/gemma-4-E2B-en50v-Q4_0.gguf --draft out/mtp-gemma-4-E2B-en50v-Q4_0.gguf
@@ -105,7 +120,22 @@ python scripts/bench.py --server path/to/llama-server --model out/gemma-4-E2B-en
 llama-perplexity -m out/gemma-4-E2B-en50v-Q4_0.gguf -f data/wiki_test.txt -c 512 --chunks 40
 ```
 
+Other useful commands:
+
+```bash
+# where the bytes are: per-token tables vs transformer blocks (read-only, works on any GGUF)
+python scripts/inspect_gguf.py data/gemma-4-E2B-it-Q4_0.gguf out/gemma-4-E2B-en50v-Q4_0.gguf
+
+# unit tests: tiny synthetic GGUF files, no model download, about a second
+pip install pytest
+python -m pytest tests
+```
+
+`trim_gguf.py` refuses to overwrite an existing output (add `--force`), checks that the keep list is sorted, unique and in range for the model, and writes the kept rows in chunks of 4,096 rows instead of building the trimmed tables in memory first (the earlier version held all of them, about 0.6 GB for Gemma 4 E2B, in RAM at once).
+
 `download_data.py` also writes `data/wiki_test.txt`, the WikiText-103 test split as plain text. The keep lists I used are in `keep_lists/`. Building them again from the same data gives identical lists, and trimming with them gives a bit-identical model file (same SHA-256 as the Hugging Face upload).
+
+The Python standard-library part of the corpus comes from the Python that runs step 1, so another Python version can change the list slightly. `keep_ids_50v.json` was rebuilt from scratch on Python 3.13.2 and came out identical.
 
 Step 1 reads the vocabulary from the MTP draft file because that is what I used. Its tokens and merges are the same as the main model's. The only difference is that the main file marks `<|video|>` as a control token, so `--gguf data/gemma-4-E2B-it-Q4_0.gguf` gives the same list plus that one token. Either list works.
 
